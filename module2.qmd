@@ -135,12 +135,55 @@ Create a vector of the 'stockid' associated with "Atlantic cod". Then turn your 
 -   Which 2 metrics are most commonly reported for Atlantic cod in this timeframe and what do they mean?
 
 
+```{r}
+cod <- stock |> 
+  filter(commonname == 'Atlantic cod')
+
+unique(cod$stockid)
+
+unique(cod$region)
+  
+```
+
+There are 28 unique fish stocks associated with 'Atlantic cod'. They come from the "Canada East Coast", "Europe non EU", "European Union", and "US East Coast" regions.
+
+```{r}
+cod_vector <- cod$stockid
+
+time_cod <- time_all |> 
+  filter(stockid %in% cod_vector,
+         tsyear >= 1950)
+
+time_cod |> 
+  group_by(tslong) |> 
+  summarize(count = n()) |> 
+  arrange(desc(count))
+```
+
+The 2 most commonly reported metrics since 1950 are 'catch divided by mean catch' and 'general total Catch (TC then TL, MT units only)'. Since we grouped by the long name of the method, these names are relatively self explainatory. 
+
 ### Q6 (1 point)
 
 Make a timeseries figure for each stock of Atlantic cod in a single figure. Rather than coloring by the identity of the stock, color by the region it comes from (this may require joining). Use `facet_*()` to plot the top two metrics from Q5 in a single code chunk. Connect the points for each stock and focus on the period since 1950. Update until the figure is easily interpretable.
 
 
 -   What happened to Atlantic cod stocks during the period 1950-present? What information does each metric convey?
+
+```{r}
+time_cod |> 
+  left_join(stock, by = "stockid") |> 
+  filter(tslong == "Catch divided by mean catch" | tslong == "General total Catch (TC then TL, MT units only)") |> 
+  ggplot(aes(x = tsyear, y = tsvalue, color = region)) +
+  geom_point() +
+  geom_line(aes(group = stockid)) +
+  facet_wrap(~ tslong, scales = "free_y") +
+  labs(x = "Year",
+       y = "Value",
+       color = "Region") +
+  theme_bw()
+```
+
+Atlantic cod stocks generally decreased during this time period. The first panel shows catch/mean catch, comparing current catch to an average expected catch. The second panel shows general total catch, which is a measure of how many total fish they caught. Both plots are showing decreasing trends in general, except maybe for Europe non EU in general total catch.
 
 ### Q7 (1 point)
 
