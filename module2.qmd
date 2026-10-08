@@ -14,11 +14,11 @@ library(tidyverse)
 
 ### Use of GitHub
 
-Link to your forked GH repository:
+Link to your forked GH repository: https://github.com/tbaugh323/Module2-overfishing.git
 
 ### Use of Quarto
 
-Link to your .qmd file:
+Link to your .qmd file: https://github.com/tbaugh323/Module2-overfishing/blob/main/module2.qmd
 
 ## Overexploitation of global fisheries
 
@@ -46,9 +46,23 @@ One of the main metadata tables is 'stock':
 
 -   How many stocks are there and how many species do they represent? Either common or scientific names okay, although they give different answers. 
 
--   What are the top three most common stocks? (Okay to use common names; these are mostly standardized for fish)
+-   What are the top three most common species? (Okay to use common names; these are mostly standardized for fish)
 
 -   In your own words, describe the unit of observation in the 'stock' table and some associated variables that describe it.
+
+```{r}
+num_stocks <- length(unique(stock$stockid))
+
+num_species <- length(unique(stock$commonname))
+
+stock |> 
+  group_by(commonname) |> 
+  summarize(count = n()) |> 
+  arrange(desc(count))
+
+```
+
+There are 1514 stocks that represent 398 different species. The three most common species are pink salmon, sockeye salmon, and chum salmon. Each stock observation represents a stock with a unique stockid and information on what it represents, such as species and location.
 
 ### Q2 (1 point)
 
@@ -59,6 +73,11 @@ The next main metadata table is 'assessment':
 -   It seems like 'stockid' and 'assessyear' might uniquely identify each assessment. Is this the case? If not, why not?
 
 -   Which variable(s) might you use to join 'stock' and 'assessment'?
+
+```{r}
+
+```
+
 
 ### Q3 (1 point)
 
