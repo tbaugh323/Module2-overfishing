@@ -75,9 +75,17 @@ The next main metadata table is 'assessment':
 -   Which variable(s) might you use to join 'stock' and 'assessment'?
 
 ```{r}
+assessment |> 
+  group_by(stockid, assessyear) |> 
+  summarize(count = n()) |> 
+  summary()
 
+View(assessment |> 
+  group_by(stockid, assessyear) |> 
+  summarize(count = n()))
 ```
 
+The unit of observation is the assessment ID, which describes the assessment method. The stock table unit of observation was each individual stock ID, which the assessment table also has. So, each stock observation is further described in the assessment table with the assessment method. stockid and assessyear do not uniquely identify each assessment, as there are several stock IDs which were assessed twice in one year. We'd join stock and assessment together with the stockid and stocklong variables.
 
 ### Q3 (1 point)
 
@@ -101,6 +109,15 @@ There are two main data tables described in section C, but their key attributes 
 
 -   What is accomplished by joining these tables?
 
+```{r}
+bio_all <- biometrics |> 
+  left_join(bioparams, by = join_by(biounique == bioid))
+
+time_all <- timeseries |> 
+  left_join(tsmetrics, by = join_by(tsid == tsunique))
+```
+
+The biometrics and bioparams tables have a bunch of biological traits for each stock for each time it was assessed. The timeseries and timemetrics tables have a lot of time-related parameters for each stock id each time it was assessed. By joining these tables, we have all the information about these parameters and the stocks they are associated with in one place.
 
 ## Overexploitation of Atlantic cod
 
