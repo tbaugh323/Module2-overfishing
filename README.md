@@ -1,7 +1,8 @@
 # Module 2: Overfishing
 
 ## Team members and contributions
-To be updated
+Taylor Baugh and Matthew Simpson, both contributed equally to completing the qrmd,
+updating the README, and adding new data.
 
 ## Learning objectives
 

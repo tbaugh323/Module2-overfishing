@@ -93,11 +93,11 @@ In section B of the Database Quick Guide, additional metadata tables are listed 
 
 | B table      | Associated table | join column from B | join column from other |
 |------------------|------------------|------------------|------------------|
-| area         |                  |                    |                        |
-| assessmethod |                  |                    |                        |
-| assessor     |                  |                    |                        |
-| management   |                  |                    |                        |
-| taxonomy     |                  |                    |                        |
+| area         |       stock      |    areaid          |        areaid          |
+| assessmethod |     assessment   |     methodshort    |    assessmethod        |
+| assessor     |       stock      |      country       |    primary_country     |
+| management   |       stock      |      country       |    primary_country     |
+| taxonomy     |       stock      |    scientificname  |    scientificname      |
 
 \*Note that assessmethod is not a data.frame, which was perhaps an oversight; consider turning it into one for the ease of using tidyverse functions.
 
